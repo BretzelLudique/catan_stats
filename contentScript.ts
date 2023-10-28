@@ -25,10 +25,10 @@ class Game {
         this.update(page);
         this.initHexWeights();
         console.log("NEW GAME VALUES:", this.hexWeights);
-        this.grab_neigbors();
     }
     update = (page: Document) => {
         this.map = page.getElementById("cat_map")!;
+        this.addSettledCoords();
     };
 
     initHexWeights = () => {
@@ -52,7 +52,7 @@ class Game {
         this.hexWeights = weights;
     };
 
-    grab_neighbor = (cityId: string) => {
+    getCityResCoords = (cityId: string) => {
         const writtenCoords = cityId.substring(0, 12);
         const coords = [Number(cityId[9]), Number(cityId[11])];
         coords[1] -= coords[0] % 2;
@@ -68,16 +68,18 @@ class Game {
         ];
     };
 
-    grab_neigbors = () => {
+    addSettledCoords = () => {
         for (let city of this.map.querySelectorAll("[id*=cat_city]")) {
-            for (let neighbor of this.grab_neighbor(city.id)) {
+            console.log(city);
+            for (let resourceCoords of this.getCityResCoords(city.id)) {
+                console.log(resourceCoords);
             }
         }
     };
 }
 
 function debounce(callback: Function, delay: number, maxIter: number = 3) {
-    let timeoutId: number;
+    let timeoutId: ReturnType<typeof setTimeout>;
     let count = 0;
 
     return function () {

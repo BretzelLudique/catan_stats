@@ -12,6 +12,7 @@ class Game {
     constructor(page) {
         this.update = (page) => {
             this.map = page.getElementById("cat_map");
+            this.addSettledCoords();
         };
         this.initHexWeights = () => {
             const weights = {};
@@ -31,7 +32,7 @@ class Game {
             }
             this.hexWeights = weights;
         };
-        this.grab_neighbor = (cityId) => {
+        this.getCityResCoords = (cityId) => {
             const writtenCoords = cityId.substring(0, 12);
             const coords = [Number(cityId[9]), Number(cityId[11])];
             coords[1] -= coords[0] % 2;
@@ -46,16 +47,17 @@ class Game {
                 `${coords[0]}_${coords[1] + 1}`,
             ];
         };
-        this.grab_neigbors = () => {
+        this.addSettledCoords = () => {
             for (let city of this.map.querySelectorAll("[id*=cat_city]")) {
-                for (let neighbor of this.grab_neighbor(city.id)) {
+                console.log(city);
+                for (let resourceCoords of this.getCityResCoords(city.id)) {
+                    console.log(resourceCoords);
                 }
             }
         };
         this.update(page);
         this.initHexWeights();
         console.log("NEW GAME VALUES:", this.hexWeights);
-        this.grab_neigbors();
     }
 }
 function debounce(callback, delay, maxIter = 3) {

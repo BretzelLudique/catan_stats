@@ -4,14 +4,18 @@
     "description": "browser addon for the BGA game CATAN",
     "main": "contentScript.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "ts:watch": "npx tsc -w",
+        "start:firefox": "npx web-ext run -p C:\\Users\\nerda\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\92eum37e.default-release-1629922897262",
+        "start": "run-p ts:watch start:firefox"
     },
-    "author": "",
+    "author": "BretzelLudique",
     "license": "MIT",
     "devDependencies": {
         "@types/firefox": "^0.0.33",
         "@types/firefox-webext-browser": "^111.0.3",
+        "npm-run-all": "^4.1.5",
         "typescript": "^5.2.2",
+        "web-ext": "^7.8.0",
         "webextension-polyfill-ts": "^0.26.0"
     }
 }
