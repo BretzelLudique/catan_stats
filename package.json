@@ -5,7 +5,7 @@
     "main": "contentScript.js",
     "scripts": {
         "ts:watch": "npx tsc -w",
-        "start:firefox": "npx web-ext run -p C:\\Users\\nerda\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\92eum37e.default-release-1629922897262",
+        "start:firefox": "npx web-ext run -s addon -p C:\\Users\\nerda\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\92eum37e.default-release-1629922897262",
         "start": "run-p ts:watch start:firefox"
     },
     "author": "BretzelLudique",
