@@ -1,0 +1,17 @@
+{
+    "name": "catan",
+    "version": "1.0.0",
+    "description": "browser addon for the BGA game CATAN",
+    "main": "contentScript.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/firefox": "^0.0.33",
+        "@types/firefox-webext-browser": "^111.0.3",
+        "typescript": "^5.2.2",
+        "webextension-polyfill-ts": "^0.26.0"
+    }
+}

@@ -1,2 +1,5 @@
 # catan_stats
-A browser addon to display some in-game stats and probas. Designed for Firefox
+
+A browser addon for the BGA website, to display some in-game stats and probas.
+
+Designed for Firefox
