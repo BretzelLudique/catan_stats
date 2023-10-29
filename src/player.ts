@@ -3,9 +3,9 @@ import { Resource, PartialData } from "./types";
 class Player {
     resources: Partial<Record<Resource, number>>;
     constructor(initialData: PartialData<Player> = {}) {
-        this.update(initialData);
+        this.assign(initialData);
     }
-    update(data: PartialData<Player> = {}) {
+    assign(data: PartialData<Player> = {}) {
         Object.assign(this, data);
     }
 }
