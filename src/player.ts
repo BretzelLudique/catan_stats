@@ -1,7 +1,9 @@
-import { Resource, PartialData } from "./types";
+import { Land, PartialData, Color } from "./types";
 
 class Player {
-    resources: Partial<Record<Resource, number>>;
+    name: string;
+    color: Color;
+    resources: Partial<Record<Land, number>>;
     constructor(initialData: PartialData<Player> = {}) {
         this.assign(initialData);
     }

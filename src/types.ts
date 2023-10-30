@@ -3,8 +3,10 @@ type YieldRoll = (typeof HEX_ROLLS)[number];
 type RobbRoll = 7;
 type DiceRoll = (typeof HEX_ROLLS)[number] | RobbRoll;
 
-const RESOURCES = ["Forest", "Hills", "Pasture", "Field", "Mountain"] as const;
-type Resource = (typeof RESOURCES)[number];
+const LANDS = ["Forest", "Hills", "Pasture", "Field", "Mountain"] as const;
+type Land = (typeof LANDS)[number];
+
+const RESOURCES = ["lumber", "brick", "wool", "grain", "ore"];
 
 const POSITIONS = [
     "0_1",
@@ -68,8 +70,8 @@ export {
     YieldRoll,
     RobbRoll,
     DiceRoll,
-    RESOURCES,
-    Resource,
+    LANDS,
+    Land,
     POSITIONS,
     Position,
     YIELD_VALUE,

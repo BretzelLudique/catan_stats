@@ -4,8 +4,8 @@ import {
     YieldRoll,
     RobbRoll,
     DiceRoll,
-    RESOURCES,
-    Resource,
+    LANDS,
+    Land,
     Position,
     YIELD_VALUE,
     YieldValue,
@@ -20,7 +20,7 @@ import {
 class Hex {
     position?: Position;
     htmlHex: Element;
-    resource?: Resource;
+    land?: Land;
     diceRoll?: DiceRoll;
     isBlocked?: boolean;
 
@@ -35,24 +35,24 @@ class Hex {
         this.position = position;
         this.htmlHex = document.getElementById(`cathex_${position}`);
 
-        this.parseResources();
+        this.parseLands();
         this.parsePlayerActions();
-        this.watch();
+        // this.watch();
     }
-    parseResources() {
+    parseLands() {
         const classes = this.htmlHex.classList;
         if (classes.length !== 4 || classes.item(3) === "cat_undefined") return;
 
-        let resource: Resource;
+        let land: Land;
         let diceRoll: DiceRoll;
-        resource = this.htmlHex.classList.item(3).substring(4) as Resource;
+        land = this.htmlHex.classList.item(3).replace("cat_", "") as Land;
         diceRoll = Number(
             document
                 .getElementById(`cat_num_token_${this.position}`)
-                .classList.item(1)!
-                .substring(8)
+                .classList.item(1)
+                .replace("cat_num_", "")
         ) as DiceRoll;
-        this.assign({ resource, diceRoll });
+        this.assign({ land, diceRoll });
     }
     _parseRoads() {
         for (const code of ["N", "W", "S"]) {
@@ -60,7 +60,9 @@ class Hex {
                 `cat_place_road_${this.position}_${code}`
             );
             if (road.classList.length === 4) {
-                this[`route${code}`] = road.classList.item(3).substring(9);
+                this[`route${code}`] = road.classList
+                    .item(3)
+                    .replace("cat_road_", "");
             } else {
                 delete this[`route${code}`]; // TODO: cant remove road, so we can remove this line
             }
@@ -72,7 +74,9 @@ class Hex {
                 `cat_city_${this.position}_${code}`
             );
             if (city) {
-                this[`city${code}`] = city.classList.item(2).substring(10);
+                this[`city${code}`] = city.classList
+                    .item(2)
+                    .replace("cat_color_", "");
             } else {
                 delete this[`city${code}`]; // TODO: cant remove city, so we can remove this line
             }
@@ -104,7 +108,7 @@ class Hex {
         );
     }
     static parsePosition = (htmlHex: Element) =>
-        htmlHex.id.substring(7) as Position;
+        htmlHex.id.replace("cathex_", "") as Position;
 }
 
 // function debounce(callback: Function, delay: number, maxIter: number = 3) {
