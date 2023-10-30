@@ -40,7 +40,8 @@ class Hex {
         this.watch();
     }
     parseResources() {
-        if (this.htmlHex.classList.length !== 4) return;
+        const classes = this.htmlHex.classList;
+        if (classes.length !== 4 || classes.item(3) === "cat_undefined") return;
 
         let resource: Resource;
         let diceRoll: DiceRoll;
