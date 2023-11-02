@@ -2,7 +2,7 @@ import { Player } from "./player";
 import { Hex } from "./hex";
 
 import { Color, POSITIONS, Position } from "./types";
-import { LogMessage } from "./logMessage";
+// import { LogMessage } from "./logMessage";
 
 const rgb2hex = (rgb: string) =>
     `#${rgb
@@ -15,8 +15,9 @@ class Game {
     map: Element;
     hexs: Record<Position, Hex>;
     players: Record<string, Player>;
+    me: Player;
 
-    constructor() {
+    constructor(myPlayerName: string = "potozuzu") {
         console.time("construct Game representation");
         this.players = {};
         for (let players of document.querySelectorAll("div[id*=player_name]")) {
@@ -26,6 +27,7 @@ class Game {
             this.players[name] = new Player({ color, name });
         }
         // console.log(this.players);
+        this.me = this.players[myPlayerName];
 
         this.initHexs();
         console.timeEnd("construct Game representation");
@@ -34,40 +36,43 @@ class Game {
             for (const logMutation of logMutations) {
                 for (const logMessage of logMutation.addedNodes) {
                     if (!(logMessage instanceof HTMLElement)) continue;
+                    let player: Player;
                     let message = logMessage.textContent;
                     const playerName = this.parsePlayerName(message);
-                    if (playerName === undefined) {
-                        // console.log(
-                        //     "New log:",
-                        //     message,
-                        //     "(todo: handle when playerName is undefined)"
-                        // );
-                        continue;
+                    if (playerName) {
+                        player = this.players[playerName];
+                        message = message.replace(`${playerName} `, "");
                     }
-                    const player = this.players[playerName];
-                    message = message.replace(`${playerName} `, "");
                     const actions = {
-                        "Vous perdez ": "",
-                        "Vous obtenez ": "",
-                        "obtient ": "",
-                        "construit une colonie pour ": "",
-                        "construit une route pour ": "",
+                        "Vous perdez ": ({ resource }) => {
+                            this.me[resource]--;
+                        },
+                        "Vous obtenez ": ({ resource, value }) => {
+                            this.me[resource] += value;
+                        },
+                        "obtient ": ({ player, resource, value }) => {
+                            player[resource] += value;
+                        },
+                        "construit une colonie pour ": ({ player }) => {
+                            player["lumber"]--;
+                            player["brick"]--;
+                            player["wool"]--;
+                            player["grain"]--;
+                        },
+                        "construit une route pour ": ({ player }) => {
+                            player["lumber"]--;
+                            player["brick"]--;
+                        },
                     };
                     for (const actionExpr in actions) {
                         if (message.startsWith(actionExpr)) {
                             message = message.replace(actionExpr, "");
-                            const resourceValue = Number(message);
-                            console.log(
-                                "New log:",
-                                playerName,
-                                message,
-                                resourceValue
-                            );
+                            const value = Number(message);
                             const resource = logMessage
                                 .querySelector("div.cat_log_token")
                                 .classList.item(1)
                                 .replace("icon_", "");
-                            player.resources[resource] += resourceValue;
+                            actions[actionExpr]({ resource, value });
                             break;
                         }
                     }
@@ -87,6 +92,7 @@ class Game {
         for (const playerName in this.players) {
             if (logMessage.startsWith(playerName)) return playerName;
         }
+        return undefined;
     };
     initHexs = () => {
         const hexEntries = POSITIONS.map((position: Position) => [

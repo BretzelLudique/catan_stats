@@ -1,14 +1,14 @@
-import { Player } from "./player";
+// import { Player } from "./player";
 
-class LogMessage {
-    htmlLogMessage: Element;
-    player: undefined | Player;
-    actionExpr: string;
-    value: number;
+// class LogMessage {
+//     htmlLogMessage: Element;
+//     player: undefined | Player;
+//     actionExpr: string;
+//     value: number;
 
-    constructor(htmlLogMessage: Element) {
-        this.htmlLogMessage = htmlLogMessage;
-    }
-}
+//     constructor(htmlLogMessage: Element) {
+//         this.htmlLogMessage = htmlLogMessage;
+//     }
+// }
 
-export { LogMessage };
+// export { LogMessage };

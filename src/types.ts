@@ -7,6 +7,7 @@ const LANDS = ["Forest", "Hills", "Pasture", "Field", "Mountain"] as const;
 type Land = (typeof LANDS)[number];
 
 const RESOURCES = ["lumber", "brick", "wool", "grain", "ore"];
+type Resource = (typeof RESOURCES)[number];
 
 const POSITIONS = [
     "0_1",
@@ -72,6 +73,8 @@ export {
     DiceRoll,
     LANDS,
     Land,
+    RESOURCES,
+    Resource,
     POSITIONS,
     Position,
     YIELD_VALUE,
